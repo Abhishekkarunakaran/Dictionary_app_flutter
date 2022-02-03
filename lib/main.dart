@@ -1,19 +1,23 @@
-import 'package:dictionary/pages/homepage.dart';
+// ignore_for_file: prefer_const_constructors_in_immutables
 import 'package:flutter/material.dart';
+// import 'pages/homepage.dart';
+import 'pages/resultpage.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  // Model _data;
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Dictionary',
-      home: HomePage(),
+      home: ResultPage(),
+      // home: HomePage()
     );
   }
 }
-
