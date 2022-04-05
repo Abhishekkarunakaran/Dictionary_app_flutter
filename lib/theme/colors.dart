@@ -7,4 +7,5 @@ class Dtheme {
   Color accentColor = Color(0xFF99B999);
   Color sanColor = Color(0xFF7C857C);
   Color resultTextColor = Color(0xFFDFFFDE);
+  Color descriptionColor = Color(0xFF869EA5);
 }

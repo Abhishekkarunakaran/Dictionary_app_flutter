@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
+import 'package:dictionary/pages/no_connectionpage.dart';
+import 'package:dictionary/pages/not_found_page.dart';
 import 'package:flutter/material.dart';
 // import 'pages/homepage.dart';
 import 'pages/resultpage.dart';
@@ -16,7 +18,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Dictionary',
-      home: ResultPage(),
+      home: NotFoundPage(),
+      // home: NoConnectionPage()
+      // home: ResultPage(),
       // home: HomePage()
     );
   }

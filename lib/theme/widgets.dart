@@ -7,15 +7,17 @@ import 'package:flutter/material.dart';
 Dtheme _dtheme = Dtheme();
 
 Widget RetryButton(Function fn) {
-  return Container(
+  return Ink(
     decoration: BoxDecoration(
       color: _dtheme.accentColor,
       borderRadius: BorderRadius.circular(10),
     ),
     height: 35,
-    width: 100,
+    width: 120,
     child: InkWell(
-      splashColor: _dtheme.sanColor,
+      borderRadius: BorderRadius.circular(10),
+      onTap: ()=>fn,
+      splashColor: Colors.green.withOpacity(0.5),
       child: Center(
         child: Text(
           'RETRY',
@@ -35,6 +37,8 @@ class PartofSpeech extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           meaning.partOfSpeech!.toUpperCase(),
@@ -55,11 +59,15 @@ class PartofSpeech extends StatelessWidget {
           ),
         ),
         Column(
-          children: List.generate({meaning.definitions}.length, (index) {
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: meaning.definitions.asMap().keys.toList().map((index) {
             return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '$index.${meaning.definitions![index]!.definition}',
+                  '${index + 1}. ${meaning.definitions[index].definition}',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
@@ -68,27 +76,40 @@ class PartofSpeech extends StatelessWidget {
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SAList(
-                        title: 'SYNONYMS',
-                        words: meaning.definitions![index]!.synonym),
+                    meaning.definitions[index].synonym.isNotEmpty ||
+                            meaning.definitions[index].antonym.isNotEmpty
+                        ? SAList(
+                            title: 'SYNONYMS',
+                            words: meaning.definitions[index].synonym)
+                        : SAList(title: 'SYNONYMS', words: const ["..."]),
                     SAList(
                         title: 'ANTONYMS',
-                        words: meaning.definitions![index]!.antonym)
+                        words: meaning.definitions[index].antonym)
                   ],
                 ),
-                Text('eg:\n${meaning.definitions![index]!.example}',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: _dtheme.resultTextColor,
-                ),
+                Text(
+                  'eg:\n${meaning.definitions[index].example}',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    color: _dtheme.resultTextColor,
+                  ),
                 )
               ],
             );
-          }),
+          }).toList(),
         ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Divider(
+            color: _dtheme.accentColor,
+            thickness: 1.5,
+          ),
+        )
       ],
     );
   }
@@ -106,47 +127,55 @@ class SAList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (words.isNotEmpty) {
-      return Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: _dtheme.accentColor,
+      return Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: _dtheme.accentColor,
+                  ),
                 ),
-              ),
-              Text(
-                words.length.toString(),
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: Color(0xFF7C857C),
+                SizedBox(
+                  width: 5,
                 ),
-              )
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(words.length, (index) {
-              return Text(
-                words[index],
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: _dtheme.resultTextColor,
-                ),
-              );
-            }),
-          )
-        ],
+                Text(
+                  words.length.toString(),
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: Color(0xFF7C857C),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(words.length, (index) {
+                return Text(
+                  words[index],
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    color: _dtheme.resultTextColor,
+                  ),
+                );
+              }),
+            )
+          ],
+        ),
       );
     } else {
       return Container(

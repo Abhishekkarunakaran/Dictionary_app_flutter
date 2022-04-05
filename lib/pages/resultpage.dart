@@ -6,8 +6,9 @@ import 'package:dictionary/theme/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatefulWidget {
-  
-  const ResultPage({Key? key,}) : super(key: key);
+  const ResultPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ResultPageState createState() => _ResultPageState();
@@ -16,7 +17,25 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   final Dtheme _dtheme = Dtheme();
 
-  Model data = Model('hello', [Meaning("asdfasd", [Definition("fghdfg", [], [],"djhdghjd")])], "sdafsdfa");
+  Model data = Model(
+      'hello',
+      [
+        Meaning("exclamation", [
+          Definition("used as a greeting or to begin a phone conversation.", ["asdfas","fghjfgh","werwy"],
+              ["sdyrtyr","tuiny"], "hello there, Katie!"),
+              Definition("used as a greeting or to begin a phone conversation.", [],
+              ["sdyrtyr","tuiny"], "hello there, Katie!"),
+        ]),
+        Meaning("noun", [
+          Definition("an utterance of ‘hello’; a greeting.", [], [],
+              "she was getting polite nods and hellos from people")
+        ]),
+        Meaning("verb", [
+          Definition("say or shout ‘hello’.", [], [],
+              "I pressed the phone button and helloed")
+        ])
+      ],
+      "early 19th century: variant of earlier hollo ; related to holla.");
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +54,8 @@ class _ResultPageState extends State<ResultPage> {
             children: [
               IconButton(
                 onPressed: () {
+                  // ignore: avoid_print
+                  debugPrint("${data.meanings.length}");
                   // ignore: todo
                   // TODO: To add back to homepage function
                 },
@@ -89,34 +110,42 @@ class _ResultPageState extends State<ResultPage> {
                 Column(
                   children: [
                     Column(
-                        children:
-                            List.generate({data.meanings}.length, (index) {
-                      return PartofSpeech(meaning: data.meanings[index]);
-                    }),
+                      children: data.meanings.map((meaning) {
+                        // ignore: avoid_print
+                        // print({data.meanings.length});
+                        return PartofSpeech(meaning: meaning);
+                      }).toList(),
                     ),
-                    Divider(color: _dtheme.accentColor,)
                   ],
                 ),
-                data.origin != null?
-                Column(
-                  children: [Text('ORIGIN',
-                style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w700,
-            fontSize: 14,
-            color: _dtheme.accentColor,
-          ),
-                ),
-                Text(data.origin!,
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: _dtheme.resultTextColor,
-                  ),
-                )],
-                ):
-                Container(height: 0.0,)
+                data.origin != null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ORIGIN',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: _dtheme.accentColor,
+                            ),
+                          ),
+                          Text(
+                            data.origin!,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: _dtheme.resultTextColor,
+                            ),
+                          )
+                        ],
+                      )
+                    : Container(
+                        height: 0.0,
+                      )
               ],
             ),
           ),

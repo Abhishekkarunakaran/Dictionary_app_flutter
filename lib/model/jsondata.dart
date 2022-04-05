@@ -8,14 +8,14 @@ class Model {
 
 class Meaning {
   String? partOfSpeech;
-  List<Definition?>? definitions;
+  List<Definition> definitions;
 
   Meaning(this.partOfSpeech, this.definitions);
 }
 
 class Definition {
-  String? definition;
-  String? example;
+  String definition;
+  String example;
   late List<String> synonym;
   late List<String> antonym;
 
